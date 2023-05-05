@@ -1,3 +1,6 @@
+const time_setted_ev = new CustomEvent("timesetted");
+
+
 function poster(data) {
     let content = `<div class="poster-wrapper">
         <div class="poster-container" tabindex="0">
@@ -29,6 +32,7 @@ function showTopLayer() {
 function hideTopLayer() {
     $("#top-layer-content").empty();
     $("#top-layer").addClass("ln-d-none-i");
+    document.title = 'Lunnaris Server';
 }
 
 function preview(data) {
@@ -45,12 +49,12 @@ function preview(data) {
                 <p>${data.sinopsys}</p>
                 <div class="view-progress ln-my-3"></div>
                 <div class="preview-controls">
-                    <span>
-                        <i class="fa-solid fa-play play-button"></i>
+                    <span class="disabled play-button">
+                        <i class="fa-solid fa-play"></i>
                         Reproducir
                     </span>
-                    <span>
-                        <i class="fa-solid fa-backward-fast restart-button"></i>
+                    <span class="restart-button">
+                        <i class="fa-solid fa-backward-fast"></i>
                         Desde el inicio
                     </span>
                     
@@ -58,14 +62,31 @@ function preview(data) {
             </div>
         </div>
     `;
+    let videoElement;
+    let time = 0;
     let element = $.parseHTML(content)[0];
     element.style.setProperty("--url",`url("../${data.thumb}")`);
     element.querySelector(".poster").style.setProperty("--b-url",`url("../${data.poster}")`);
-    element.querySelector(".play-button").addEventListener('click', () => {
-        let videoElement = $.parseHTML(`<div class="video-container">
-        <video src="/video/${data.id}" controls class="video-player"/>
-        </div>`)[0];
-        setTopLayerContent(videoElement);
+    element.querySelector(".restart-button").addEventListener('click', () => {
+        videoElement = createVideoElement(data);
+        setTopLayerContent(videoElement.element);
+    });
+    
+
+    fetch(`/api/media/${data.id}`)
+    .then(response => response.json())
+    .then(response => {
+        time = response.time;
+        element.querySelector('.view-progress').style.setProperty('--progress',`${response.time}`)
+        element.querySelector(".play-button").addEventListener('click', () => {
+            videoElement = createVideoElement(data);
+            videoElement.element.addEventListener('loadedmetadata', () => {
+                videoElement.element.currentTime = time * videoElement.element.duration;
+            });
+            document.title = `Reproduciendo: ${data.title}`;
+            setTopLayerContent(videoElement.element);
+        });
+        element.querySelector(".play-button").classList.toggle('disabled', false);
     });
     return element;
 

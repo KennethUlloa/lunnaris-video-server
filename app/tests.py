@@ -37,8 +37,8 @@ def test_movie(): #'HU7gT9GIqd'
     movie = dao.VideoDAO().get_full('the_batman',"HU7gT9GIqd")
     print(movie)
 
-def test_update_time(id,time):
-    ack = dao.VideoDAO().update_time(id,time,"HU7gT9GIqd")
+def test_update_time(id,time,token):
+    ack = dao.VideoDAO().update_time(id,time,token)
     print(ack)
 
 def test_exists_session():
@@ -48,6 +48,10 @@ def test_create_session():
     s = dao.SessionDAO().create('leo', 'leo1234', '127.0.0.1')
     print(s)
 
+def test_time(id, token):
+    resp = dao.VideoDAO().get_watched_time(id, token)
+    print(resp)
+
 if __name__ == "__main__":
-    test_create_session()
+    test_update_time('aquaman',0.2,'0GQNJH9A8y')
 

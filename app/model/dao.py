@@ -1,18 +1,8 @@
-from abc import ABC, abstractmethod
 from model.db import DB
 import model.model as m
 from utils.utils import genToken
-class DAO(ABC):
-    @abstractmethod
-    def get(self, **kwargs): pass
-    @abstractmethod
-    def update(self, **kwargs): pass
-    @abstractmethod
-    def delete(self, **kwargs): pass
-    @abstractmethod
-    def register(self, **kwargs): pass
 
-class UserDAO(DAO):
+class UserDAO():
 
     def auth(self, username: str, password: str):
         conn = DB.get_connection()
@@ -99,6 +89,7 @@ class SessionDAO:
         return m.Session(token=session['token'], address=session['address'])
 
     def exists(self, token):
+        if token == None: return False
         collection = DB.get_connection()['LunnarisDB']['users']
         return collection.find_one({"sessions.token":token},{"_id":1}) != None
         
@@ -109,11 +100,11 @@ class VideoDAO:
         media = conn.aggregate([{"$match":{"src":{"$regex":".*(.mp4)"}}},{"$project":{"_id":0,"src":0}}])
         return list(media)
     
-    def get_full(self, id, token):
+    def get_full(self, id, token, default=None):
         collection = DB.get_connection()['LunnarisDB']['media']
         movie = collection.find_one({"id":id},projection={"_id":0, "src":0})
         if movie == None:
-            return
+            return default
         movie = dict(movie)
         collection = DB.get_connection()['LunnarisDB']['users']
         watched = collection.find_one({"sessions.token":token},projection={"watched":{"$elemMatch":{"id":id}}, "_id":0})
@@ -133,4 +124,12 @@ class VideoDAO:
         video = collection.find_one({"id":id}, projection={"_id":0, "src":1})
         if video != None: return video['src']
         else: return ""
+    
+    def get_watched_time(self, id, token):
+        collection = DB.get_connection()['LunnarisDB']['users']
+        video = collection.find_one({"sessions.token":token}, projection={"watched":{"$elemMatch":{"id":id}},"_id": 0})
+        if video != None and video != {}:
+            return video["watched"][0]
+        
+        return None
 

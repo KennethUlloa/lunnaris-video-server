@@ -6,9 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lunnaris Server</title>
     <link rel="stylesheet" href="css/ln-lib.css">
-    <link rel="stylesheet" href="css/extras.css">
+    <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="libs/fontawesome/css/all.min.css">
     <script src="js/jquery.js"></script>
+    <script src="js/player.js"></script>
     <script src="js/elements.js"></script>
 </head>
 <body>
@@ -17,7 +18,7 @@
             <header class="ln-flex-row ln-ai-center">
                 <nav class="ln-sm-w-100">
                     <ul class="nav-menu ln-sm-w-100 ln-sm-jc-even">
-                        <li class="item" tabindex="0">
+                        <li class="item hoverable" tabindex="0">
                             <i class="fa-solid fa-house item-icon"></i>
                             <span class="item-text ln-sm-d-none">Inicio</span>
                         </li>
@@ -32,10 +33,10 @@
                     </ul>
                 </nav>
                 <div class="item ln-ml-auto" tabindex="0">
-                    <span class="ln-sm-d-none">Usuario</span>
+                    <span class="ln-sm-d-none" id="user-name">Usuario</span>
                     <i class="fa-solid fa-user item-icon"></i>
                 </div>
-                <div class="item" tabindex="0">
+                <div class="item hoverable" tabindex="0" id="login-btn">
                     <i class="fa-solid fa-arrow-right-from-bracket item-icon"></i>
                 </div>
             </header>

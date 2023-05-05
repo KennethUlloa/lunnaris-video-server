@@ -16,3 +16,16 @@ requestData(loadPosters);
 $('#close-button').click(function () {
     hideTopLayer();
 });
+
+window.onload = () => {
+    $("#user-name").text(sessionStorage.getItem("LN-USERNAME"));
+    $("#login-btn").click(function() {
+        fetch("/api/auth/logout",{method: 'post'})
+        .then(response => {
+            if(response.ok) {
+                location.href = "/";
+            }
+        });
+        ;
+    });
+}
