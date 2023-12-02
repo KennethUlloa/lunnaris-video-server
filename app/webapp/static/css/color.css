@@ -1,8 +1,11 @@
 :root {
-    --ln-page-color: rgb(49, 49, 49);
+    --ln-page-color: rgb(41, 49, 60);
     --ln-text-color: white;
+    --ln-dark-color: rgb(27, 31, 37);
     --ln-primary: rgb(58, 132, 218);
-    --ln-text-inactive: gray; 
+    --ln-text-inactive: rgb(112, 111, 132); 
     --ln-text-alt: white;
+    --ln-cell-alernate: rgb(59, 69, 84); 
+    --ln-red-color: rgb(143, 65, 65); 
 }
 

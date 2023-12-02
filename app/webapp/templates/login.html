@@ -1,29 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/ln-lib.css">
-    <link rel="stylesheet" href="/css/color.css">
-    <link rel="stylesheet" href="/css/login.css">
+{% extends "base.html" %}
+
+{% block head %}
     <script src="js/jquery.js"></script>
     <title>Log In</title>
-</head>
-<body>
+{% endblock %}
+
+{% block body %}
     <div class="ln-flex-column ln-jc-center ln-ai-center full-page">
+        <h1>Lunnaris Web Server</h1>
+
         <form action="api/auth/login" method="post" class="ln-gap-3 ln-flex-column ln-m-3 ln-sm-w-100 ln-p-4 ln-w-70" id="form">
             <div class="input-wrapper">
                 <input type="text" name="username" placeholder="Usuario" class="input-type" required>
-                <label>Usuario</label>
+                <label class="label">Usuario</label>
             </div>
             <div class="ln-flex-column input-wrapper">
                 <input type="password" name="password" placeholder="Contraseña" class="input-type" required>
-                <label>Contraseña</label>
+                <label class="label">Contraseña</label>
             </div>
             <input type="submit" value="Ingresar" class="btn">
         </form>
     </div>
     <script src="js/login.js"></script>
-</body>
-</html>
+{% endblock %}

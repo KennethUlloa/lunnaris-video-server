@@ -1,0 +1,24 @@
+table {
+    border-collapse: collapse;
+}
+
+thead th {
+    background-color: var(--ln-dark-color);
+    text-align: start;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: var(--ln-cell-alernate);
+}
+
+tbody tr:nth-child(even) {
+    border: 1px solid var(--ln-cell-alernate);
+}
+
+td {
+    padding: 10px;
+}
+
+.cell-fit {
+    width: fit-content;
+}

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block head %}
+    <title>Administración de usuarios</title>
+    <script src="/js/jquery.js"></script>
+{% endblock %}
+{% block body %}
+    <h1 class="ln-flex-row ln-jc-center ln-p-3">Lunnaris Video Server</h1>
+    <p class="ln-flex-row ln-jc-center ln-p-3">
+        Actualización de datos
+    </p>
+    <div class="ln-flex-column ln-ai-center">
+        <form action="" class="ln-flex-column ln-w-70 ln-gap-2" id="user-form">
+            <label>Usuario</label>
+            <input type="text" name="username" value="{{ user.username }}" readonly class="input-type ln-mb-3">
+            <label>Nombre mostrado</label>
+            <input type="text" name="displayname" class="input-type ln-mb-3" required placeholder="Longitud de 6 caracteres entre letras y números" value="{{ user.displayName }}">
+            <label>Contraseña actual</label>
+            <input type="password" name="password" class="input-type ln-mb-3" required 
+            placeholder="Ingresa la contraseña actual de la cuenta"
+            >
+
+            <label>Nueva contraseña</label>
+            <input type="password" name="newpassword" class="input-type ln-mb-3" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$"
+            placeholder="Nueva contraseña: longitud mínima de 8 caracteres y al menos un número"
+            >
+
+            <label>Permisos</label>
+            <select name="type" class="input-type">
+                {% for permission in options %}
+                    <option>{{ permission }}</option>
+                {% endfor %}
+            </select>
+            <input type="submit" class="input-type" value="Guardar">
+            
+        </form>
+    </div>
+    <script src="/js/adminuser.js"></script>
+    <script>
+        $("#user-form").submit(function(e) {
+            e.preventDefault();
+            updateUser(form2Json(e.target))
+        })
+    </script>
+{% endblock %}

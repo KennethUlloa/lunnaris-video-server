@@ -1,15 +1,15 @@
 from flask import Blueprint, request, abort
-from model.dao import VideoDAO, SessionDAO
+from model.dao import MediaDAO, SessionDAO
+from model.dto import MediaDTO
 from utils.utils import require_auth, handle_null
 import config
 
-Media = Blueprint("media",__name__)
-videos = VideoDAO()
-sessions = SessionDAO()
+Media = Blueprint("media", __name__)
+
 
 def _auth():
     cookie = request.cookies.get(config.SESSION_NAME)
-    if sessions.exists(cookie):
+    if SessionDAO.exists(cookie):
         return True, None
     else:
         return False, {"status": "Failed", "reason": "No auth method find"}
@@ -18,39 +18,50 @@ def _auth():
 @Media.get("/")
 @require_auth(_auth)
 def all_media():
-    return videos.get_all()
+    media = []
+    if request.args.get("search") is None:
+        
+        media = [MediaDTO(media=m).to_dict() for m in MediaDAO.getAllMedia()]
+    else:
+        search = request.args["search"]
+        media = [MediaDTO(media=m).to_dict() for m in MediaDAO.getFromSearch(search)]
+    return media
+
 
 @Media.get("/<string:id>")
 @require_auth(_auth)
 def send_media(id):
-    cookie=request.cookies.get(config.SESSION_NAME)
-    res = videos.get_full(id, cookie)
-    if res == None: return []
-    return res
+    cookie = request.cookies.get(config.SESSION_NAME)
+    res = MediaDAO.getFull(id, cookie)
+    if res is None:
+        return []
+    return MediaDTO(res).to_dict()
+
 
 @Media.get("/watched/<string:id>")
 @require_auth(_auth)
-def send_watched_time(id):
+def send_watched_time(_id):
     token = request.cookies.get(config.SESSION_NAME)
-    res = videos.get_watched_time(id, token)
-    if res == None: return []
-    return res
+    res = MediaDAO.getWatchedTime(_id, token)
+    if res is None:
+        return []
+    return MediaDTO(res).to_dict()
 
 
 @Media.put("/watched")
 def update_watched_time():
-    id = request.form.get('id')
+    _id = request.form.get('id')
     time = request.form.get('time')
     token = request.cookies.get(config.SESSION_NAME)
 
-    if token == None:
+    if token is None:
         return ({'message':'No autorizado'}, 401)
 
-    if id == None or time == None: 
+    if _id is None or time is None:
         return ({'message':'No hay suficientes argumentos'}, 400)
     
     time = float(time)
-    if videos.update_time(id, time, token):
+    if MediaDAO.updateWatchTime(_id, time, token):
         return ({'message':'Actualización exitosa'}, 200)
     else:
         return ({'message':'Actualización fallida'}, 400)

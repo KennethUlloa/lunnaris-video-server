@@ -1,8 +1,8 @@
 
 function createVideoElement(data) {
     let video = {
-        videoId: data.id,
-        element: $.parseHTML(`<video src="/video/${data.id}" controls class="video-player"/>`)[0],
+        videoId: data.mediaId,
+        element: $.parseHTML(`<video src="/video/${data.mediaId}" controls class="video-player"/>`)[0],
         videoLastTime: 0.0,
         laterTime: 0
     }

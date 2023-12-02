@@ -8,9 +8,13 @@ form.on('submit', function(e) {
     })
     .then(response => response.json())
     .then(data => {
-        if (data.login_status == "ok") {
+        console.log(data);
+        if (data.status == "ok") {
+            console.log("OK")
             sessionStorage.setItem("LN-USERNAME", data.user);
             location.href = "/";
+        }else if (data.status == "error") {
+            alert(data.reason);
         }
         
     });

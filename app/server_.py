@@ -1,7 +1,6 @@
 import json
 from flask import Flask, Response, redirect, request, send_file, abort
 import os
-import model.dao as dao
 import model.db as db
 
 app = Flask(__name__)

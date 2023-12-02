@@ -5,12 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lunnaris Server</title>
-    <link rel="stylesheet" href="css/ln-lib.css">
-    <link rel="stylesheet" href="css/index.css">
-    <link rel="stylesheet" href="libs/fontawesome/css/all.min.css">
-    <script src="js/jquery.js"></script>
-    <script src="js/player.js"></script>
-    <script src="js/elements.js"></script>
+    <link rel="stylesheet" href="/css/ln-lib.css">
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/libs/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="/css/color.css">
+    <link rel="stylesheet" href="/css/common.css">
+    <script src="/js/jquery.js"></script>
+    <script src="/js/player.js"></script>
+    <script src="/js/elements.js"></script>
 </head>
 <body>
     <div class="ln-ps-rel">
@@ -22,19 +24,29 @@
                             <i class="fa-solid fa-house item-icon"></i>
                             <span class="item-text ln-sm-d-none">Inicio</span>
                         </li>
-                        <li class="item" tabindex="0">
+                        <li class="item hoverable" tabindex="0">
                             <i class="fa-solid fa-film item-icon"></i>
                             <span class="item-text ln-sm-d-none">Películas</span>
                         </li>
-                        <li class="item" tabindex="0">
+                        <li class="item hoverable" tabindex="0">
                             <i class="fa-solid fa-tv item-icon"></i>
                             <span class="item-text ln-sm-d-none">Series</span>
                         </li>
                     </ul>
                 </nav>
-                <div class="item ln-ml-auto" tabindex="0">
-                    <span class="ln-sm-d-none" id="user-name">Usuario</span>
-                    <i class="fa-solid fa-user item-icon"></i>
+                <form class="input-wrapper grouped ln-flex-row-i" action="/api/media" id="search-bar">
+                    <input type="text" name="search" placeholder="Buscar..." class="input-type ln-p-1-i" required>
+                    <button type="submit" class="input-type"><i class="fa-solid fa-search"></i></button>
+                </form>
+                <div class="item ln-ml-auto" tabindex="0">            
+                    {% if user.userType == "admin" %}
+                        <a href="/admin" class="ln-mr-1">
+                            <i class="fa-solid fa-crown"></i>
+                        </a>
+                    {% else %}
+                        <i class="fa-solid fa-user item-icon"></i>
+                    {% endif %}
+                    <span class="ln-sm-d-none" id="user-name">{{ user.displayName }}</span>
                 </div>
                 <div class="item hoverable" tabindex="0" id="login-btn">
                     <i class="fa-solid fa-arrow-right-from-bracket item-icon"></i>
@@ -53,6 +65,6 @@
             </div>
         </div>
     </div>
-    <script src="js/index.js"></script>
+    <script src="/js/index.js"></script>
 </body>
 </html>

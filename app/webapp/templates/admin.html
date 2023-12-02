@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/ln-lib.css">
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/libs/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="/css/color.css">
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/elements.css">
+    <title>Administración</title>
+</head>
+<body>
+    <h1 class="ln-flex-row ln-jc-center ln-p-3">Lunnaris Video Server</h1>
+    <p class="ln-flex-row ln-jc-center"><a href="/">Regresar al inicio</a></p>
+    <div class="ln-flex-column ln-p-5">
+        <div class="ln-flex-row ln-ai-center ln-mt-4">
+            <h2 class="ln-p-2">Usuarios </h2>
+            <button class="btn ln-ml-1">
+                <a href="/admin/user/create">
+                    <i class="fa-solid fa-plus"></i>
+                </a>
+                
+            </button>
+        </div>
+        <table class="ln-w-100">
+            <thead>
+                <th class="ln-p-2 cell-fit">Acción</th>
+                <th class="ln-p-2">Nombre usuario</th>
+                <th class="ln-p-2">Nombre mostrado</th>
+                <th class="ln-p-2">Permisos</th>
+            </thead>
+            <tbody>
+            {% for user in users %}
+                <tr>
+                    <td class="ln-flex-row ln-gap-1">
+                        <button class="btn btn-red">
+                            <i class="fa-solid fa-trash"></i>
+                            
+                        </button>
+                        <a href="/admin/user/update?username={{ user.username }}">
+                            <button class="btn">
+                                <i class="fa-solid fa-pen"></i>
+                            </button>
+                        </a>
+                    </td>
+                    <td>
+                        {{ user.username }}
+                    </td>
+                    <td>
+                        {{ user.displayName }}
+                    </td>
+                    <td>
+                        {% if user.userType == "admin" %}                            
+                            <i class="fa-solid fa-crown"></i>                            
+                        {% else %}
+                            <i class="fa-solid fa-user item-icon"></i>
+                        {% endif %}
+                        
+                        {{ user.userType }}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="ln-flex-row ln-ai-center ln-mt-4">
+            <h2 class="ln-p-2">Multimedia </h2>
+            <button class="btn ln-ml-1"><i class="fa-solid fa-plus"></i></button>
+        </div>
+        
+        <table class="ln-w-100">
+            <thead>
+                <th class="ln-p-2">Acción</th>
+                <th class="ln-p-2">Id</th>
+                <th class="ln-p-2">Título</th>
+                <th class="ln-p-2">Año</th>
+                <th class="ln-p-2">Descripción</th>
+            </thead>
+            <tbody>
+            {% for media in media_list %}
+                <tr>
+                    <td class="ln-flex-row ln-gap-1">
+                        <button class="btn btn-red">
+                            <i class="fa-solid fa-trash"></i>
+                            
+                        </button>
+                        <button class="btn">
+                            <i class="fa-solid fa-pen"></i>
+                            
+                        </button>
+                    </td>
+                    <td>
+                        {{ media.mediaId }}
+                    </td>
+                    <td>
+                        {{ media.title }}
+                    </td>
+                    <td>
+                        {{ media.year }}
+                    </td>
+                    <td>
+                        {{ media.synopsis }}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -12,8 +12,8 @@ function poster(data) {
         </div>
     </div>`;
     let element = $.parseHTML(content)[0];
-    element.querySelector(".poster").style.setProperty("--b-url",`url("../${data.poster}")`);
-    element.addEventListener('click', () => {
+    element.querySelector(".poster-container").style.setProperty("--b-url",`url("../${data.poster}")`);
+    element.querySelector(".poster-container").addEventListener('click', () => {
         setTopLayerContent(preview(data));
         showTopLayer();
     });
@@ -44,9 +44,9 @@ function preview(data) {
                 <h2>${data.title}</h2>
                 <div class="ln-flex-row ln-my-3">
                     <span>${data.year}</span>
-                    ${data.genre.map(g => `<span class="ln-mx-2">${g}</span>`).join('<span class="separator v"></span>')}
+                    ${data.genres.map(g => `<span class="ln-mx-2">${g}</span>`).join('<span class="separator v"></span>')}
                 </div>
-                <p>${data.sinopsys}</p>
+                <p>${data.synopsis}</p>
                 <div class="view-progress ln-my-3"></div>
                 <div class="preview-controls">
                     <span class="disabled play-button">
@@ -73,11 +73,11 @@ function preview(data) {
     });
     
 
-    fetch(`/api/media/${data.id}`)
+    fetch(`/api/media/${data.mediaId}`)
     .then(response => response.json())
     .then(response => {
         time = response.time;
-        element.querySelector('.view-progress').style.setProperty('--progress',`${response.time}`)
+        element.querySelector('.view-progress').style.setProperty('--progress',`${response.timeWatched}`)
         element.querySelector(".play-button").addEventListener('click', () => {
             videoElement = createVideoElement(data);
             videoElement.element.addEventListener('loadedmetadata', () => {
